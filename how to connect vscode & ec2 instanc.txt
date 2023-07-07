@@ -1,0 +1,7 @@
+how to connect vscode & ec2 instance 
+=====================================
+
+Host apache
+  HostName 54.166.50.112
+  username ec2-user
+  IdentityFile "C:\Users\duggi\Downloads\cicd.pem"

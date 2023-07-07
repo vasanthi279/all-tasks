@@ -1,0 +1,53 @@
+VPC FLOW LOGS:
+==============
+
+
+----------first we have to login to the aws account after to the serach to the vpc
+ 
+----------Allready we have to create custom vpc to select that ----------to go to the inside ---vpc flowlogs select that --------we have to mentation that name --------
+
+and to fillter give to the option--all------------destination------to send to the cloudwatch logs----------after to the select destination log group----and to select the 
+
+i am role ----and create the role 
+
+
+--go the cloudwatch --to check to the logs come or not check it onecs.
+
+
+
+---to go the cloudwatch server ----create one log group 
+
+after to the select destination log group
+
+---go ton the iam server and first we have create policy ---insede policy to the atach the json format.                                                                             {
+"Version": "2012-10-17",
+"Statement": [
+{
+"Action": [
+"logs:CreateLogGroup",
+"logs:CreateLogStream",
+"logs:PutLogEvents",
+"logs:DescribeLogGroups",
+"logs:DescribeLogStreams"
+],
+"Effect": "Allow",
+"Resource": "*"
+}
+]
+}
+
+----to selct the role ------inside to the role select the policy --------and create role -------again same role some change that to role policy-----attach that 
+
+{
+"Version": "2012-10-17",
+"Statement": [
+{
+"Sid": "",
+"Effect": "Allow",
+"Principal": {
+"Service": "vpc-flow-logs.amazonaws.com"
+},
+"Action": "sts:AssumeRole"
+}
+]
+}

@@ -1,0 +1,54 @@
+nexus-url-all
+
+curl -sSL -X GET -G "http://mynexus3.local/service/rest/v1/search/assets" \
+  -d repository=maven-snapshot-jenkins \
+  -d maven.groupId=sparkjava-hello-world \
+  -d maven.artifactId=sparkjava-hello-world \
+  -d maven.baseVersion=1.0 \
+  -d maven.extension=war \
+  -d maven.classifier=war-with-dependencies \
+  | grep -Po '"downloadUrl" : "\K.+(?=",)' \
+  | xargs curl -fsSL -o sparkjava-hello-world.war
+
+
+
+curl -v -u admin:Siva@2662 --upload-file /var/lib/jenkins/workspace/java-ci-code/target http://10.0.3.102:8081/nexus/repository/maven-snapshot-jenkins/sparkjava-hello-world/sparkjava-hello-world/1.0/sparkjava-hello-world-1.0.war
+
+
+
+
+
+
+curl -v -u admin:Siva@2662 --upload-file sparkjava-hello-world-1.0.war http://10.0.3.102:8081//jenkins-repo//var/lib/jenkins/workspace/pipline-sonar-nexus/target/sparkjava-hello-world-1.0.war
+
+
+
+
+
+
+wget --user=admin --password="http://:Siva@2662 /nexus/service/local/artifact/maven/content?sparkjava-hello-world&sparkjava-hello-world=&1.0=&maven-snapshot-jenkins=snapshots"
+
+
+wget --user=username --password=password "http://:/nexus/service/local/artifact/maven/content?g=&a=&v=&r=snapshots"
+
+
+wget --user=admin --password=Siva@2662 "http://10.0.3.102:8081/nexus/service/local/artifact/maven/content?sparkjava-hello-world&sparkjava-hello-world=&1.0=&maven-snapshot-jenkins=war"
+
+
+
+curl -X GET -u admin:Siva@2662 "http://10.0.3.102:8081/nexus/service/local/artifact/maven/redirect?r=maven-snapshot-jenkins&g=sparkjava-hello-world&a=sparkjava-hello-world&v=LATEST&p=war" -O
+
+
+
+wget --user=admin --password=Siva@2662 'https://10.0.3.102:8081/nexus/maven-snapshot-jenkins/////' -O /var/lib/jenkins/workspace/java-ci-code/target/sparkjava-hello-world-1.0.war/
+
+
+curl -L -X GET 'http://10.0.3.102:8081/service/rest/v1/search/assets/download?sort=version&repository=YOUREPO&group=YOURGROUP&name=YOURARTIFACTID&maven.extension=war' --output '/d/YOUR/PATH/FILE.war' -u user:password
+
+
+curl -v -admin:Siva@2662 --no-proxy '*' --upload-file sparkjava-hello-world-1.0.war.war 'https://172.31.35.134:8081/nexus/jenkins-repo/test_release2   
+
+
+curl -v --user admin:Siva@2662 --upload-file /var/lib/jenkins/workspace/pipline-sonar-nexus/target/war/sparkjava-hello-world-1.0.war https://172.31.35.134:8081/repository/jenkins-repo/var/lib/jenkins/workspace/pipline-sonar-nexus/target/sparkjava-hello-world-1.0.war
+
+/var/lib/jenkins/workspace/java-ci-code/target/sparkjava-hello-world-1.0.war

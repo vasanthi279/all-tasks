@@ -1,0 +1,19 @@
+FOLLOW-UP-MAIL
+==============
+
+Dear <NAME>,
+
+Thank you for the interview.
+
+I wanted to thank you for the opportunity to interview for the DevOps Engineer Position role at <COMPANY NAME>. It was great to learn more about the company and the responsibilities of the position.
+
+I appreciate the time you took to speak with me and answer my questions. I remain very interested in the position and believe that my skills and experience would be a great match for the role.
+
+Please let me know if there is anything else you need from me at this time. I look forward to hearing from you soon.
+
+Best regards,
+<YOUR NAME>
+
+
+
+TO SEARCH THE BROWSER QUESTION: what mail should i drop after attending interview round 1 to the recruiter 

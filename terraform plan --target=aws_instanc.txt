@@ -1,0 +1,84 @@
+terraform plan --target=aws_instance.nexus1 --target=aws_securitygroup.nexus1 --var-file zones.tfvars 
+
+terraform apply --target=aws_instance.nexus1 --target=aws_securitygroup.nexus1 --var-file zones.tfvars
+
+terraform plan --target=aws_securitygroup.Fb-sg --var-file zones.tfvars
+
+
+
+
+terraform plan --target=aws_route53_zone.route53-hostedzone --target=aws_route53_record.jenkins-record --var-file zones.tfvars
+
+
+
+
+
+/* 
+data "template_file" "init_elasticsearch" {
+  depends_on = [ 
+    aws_instance.elasticsearch-kibana
+  ]
+ count=3
+  template = file("./elasticsearch_config.tpl")
+  vars = {
+    cluster_name = "cluster1"
+    node_name = "node_${count.index}"
+    node = aws_instance.elasticsearch-kibana[count.index].private_ip
+  }
+
+}
+resource "null_resource" "move_elasticsearch_file" {
+  count = 1
+  connection {
+     type = "ssh"
+     user = "ec2-user"
+     private_key = file("deployer-key.pem")
+    host= aws_instance.elasticsearch-kibana[count.index].public_ip
+  } 
+  provisioner "file" {
+    content = data.template_file.init_elasticsearch[count.index].rendered
+    destination = "elasticsearch.yml"
+  }
+}
+
+
+resource "null_resource" "start_es" {
+  depends_on = [ 
+    null_resource.move_elasticsearch_file
+  ]
+  count = 1
+  connection {
+     type = "ssh"
+     user = "ec2-user"
+     private_key = file("deployer-key.pem")
+     host= aws_instance.elasticsearch-kibana[count.index].public_ip
+  }
+
+  provisioner "remote-exec" {
+    inline = [
+      "#!/bin/bash",
+      "sudo yum update -y",
+      "sudo rpm -i https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-7.5.1-x86_64.rpm",
+      "sudo systemctl daemon-reload",
+      "sudo systemctl enable elasticsearch.service",
+      "sudo sed -i 's@-Xms1g@-Xms${aws_instance.elasticsearch-kibana[count.index].root_block_device[0].volume_size/2}g@g' /etc/elasticsearch/jvm.options",
+      "sudo sed -i 's@-Xmx1g@-Xmx${aws_instance.elasticsearch-kibana[count.index].root_block_device[0].volume_size/2}g@g' /etc/elasticsearch/jvm.options",
+      "sudo rm /etc/elasticsearch/elasticsearch.yml",
+      "sudo cp elasticsearch.yml /etc/elasticsearch/",
+      "sudo systemctl start elasticsearch.service"
+    ]
+  }
+} */
+
+
+
+
+
+
+
+
+
+
+
+
+

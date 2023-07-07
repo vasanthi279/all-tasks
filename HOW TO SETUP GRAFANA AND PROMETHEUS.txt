@@ -1,0 +1,154 @@
+HOW TO SET UP GRAFANA AND PROMETHEUS AND NODE EXPORTER:[INSIDE GRAFANA TO SETUP THE ALB,CACHE,RDS,CLOUDWATCH,EBS,APACHE EXPORTER] 
+================================================================================================================================
+
+
+1) FIRST WE HAVE TO LOGIN TO THE AWS ACCOUNT AFTER TO THE SERCH THE EC2 SERVER----INSIDE EC2 TO CLICK TO THE SG------------CREATE SECURITY GROUP 
+
+                                                                  1)apache-security group--------ssh----22-----my ip and vpn ip
+inside apache server to install to the apche,node exporter,apache exporter            ---------9100---to attach to the prometheus sg id 
+                                                                                      ---------9117----to attach to the prometheus sg id 
+
+
+                                                                  2)peometheus security group-----22----MY IP ---VPN IP
+                                                                                        PROMETHEUS--9090----GRAFANA SG ID 
+
+                                                                  3)grafana secutity group ------22--My ip ----vpn ip 
+                                                                                            ------3000---my ip 
+2) After to create to the 3 ec2 instance----
+                   1)apache instance -----to select to the sg ---to install apache ,node_exporter, apache_exporter.----give to all are userdata ------create instance.
+
+    #!/bin/bash
+sudo su -
+yum install httpd -y
+systemctl start httpd
+systemctl enable httpd
+systemctl status httpd
+cd /opt
+wget https://github.com/prometheus/node_exporter/releases/download/v1.4.0-rc.0/node_exporter-1.4.0-rc.0.linux-amd64.tar.gz
+ tar -zvxf node_exporter-1.4.0-rc.0.linux-amd64.tar.gz
+ cd node_exporter-1.4.0-rc.0.linux-amd64/
+nohup ./node_exporter &
+
+apache_exporter
+================
+cd /opt
+curl -s https://api.github.com/repos/Lusitaniae/apache_exporter/releases/latest|grep browser_download_url|grep linux-amd64|cut -d '"' -f 4|wget -qi -
+tar -xvzf apache_exporter-0.13.3.linux-amd64.tar.gz
+rm -rf apache_exporter-0.13.3.linux-amd64.tar.gz
+cd apache_exporter-0.13.3.linux-amd64/
+nohup ./apache_exporter &
+
+        2) prometheus instance ----to select the prometheus sg -----all give to the user data ---then we will be crated ec2 instance ----Inside to the server to change the prometheus .yml file --------
+
+prometheus user data:
+======================
+
+#!/bin/bash
+sudo su -
+cd /opt
+wget https://github.com/prometheus/prometheus/releases/download/v2.39.1/prometheus-2.39.1.linux-amd64.tar.gz
+tar -xf prometheus-2.39.1.linux-amd64.tar.gz
+cd prometheus-2.39.1.linux-amd64/
+nohup ./prometheus &
+
+                inside to the  prometheus.jml file to pass the apache <private ip>port number.
+
+ for example prometeus.yml
+================================
+
+                           -job_name:
+                              static_configs:
+                             - targets: ["localhost:9090"]
+                             
+                           
+
+                           -job_name:
+                              static_configs:
+                             - targets: ["apacheprivateip:9090"]
+       
+                                                                                   
+once dave to the file --------metrices is commming come are not to check that once -------go for prometheus page----to select the status----target--its check it now.
+
+           3)  grafana instance ----to select the pr grafana sg----all give to the user data ---then we will be crated ec2 instance --After --to copypublic Ip   search to the browser to get grafana page ---default userame--admin----passwd--admin also 
+
+grafana user data:
+==================
+sudo su -
+yum update -y
+cd /opt
+wget https://dl.grafana.com/oss/release/grafana-9.2.1.linux-amd64.tar.gz
+tar -xvzf grafana-9.2.1.linux-amd64.tar.gz
+chmod -R 755 grafana-9.2.1
+cd grafana-9.2.1/bin/
+nohup ./grafana-server & 
+
+---------------go to the garafan ---to select the datasource---------and to kept the <http://prometheusprivateip:9090/ ---after the save---afetr to omport to the node exporter metices ----go to the dashbords go down to select  import --to enter the number  ------  
+
+
+----again go to the ----datasource ----to serch to the cloudwatch----to the configure to enter to the a.k & s.k to pass that and to enter the  region to save 
+
+
+node exporter defaulu grafana dashboard------------------------https://grafana.com/grafana/dashboards/1860-node-exporter-full/
+
+cloudwatch default grafana dashboard---------------------------https://grafana.com/grafana/dashboards/590-aws-cloudwatch-browser/
+
+EBS default grafana dashboard----------------------------------https://grafana.com/grafana/dashboards/623-aws-ebs/
+
+apache_exporter default grafana dashboard----------------------https://grafana.com/grafana/dashboards/3894-apache/
+
+alb default grafana dashboard----------------------------------https://grafana.com/grafana/dashboards/14361-aws-alb-cloudwatch-metrics/
+
+cache default grafana dashboard--------------------------------https://grafana.com/grafana/dashboards/878-elasticsearch-dashboard/
+
+rds default grafana dashboard----------------------------------https://grafana.com/grafana/dashboards/707-aws-rds/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

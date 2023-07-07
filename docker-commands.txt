@@ -1,0 +1,35 @@
+
+#A Quick Reference Guide to Docker
+
+## General Docker Commands
+* docker run - Run an application in a new Docker container
+* docker start - Start an already existing container
+* docker stop - Stop an already running container
+* docker kill - Kill a running container
+* docker rm - Remove a stopped container
+* docker ps - List running containers
+* docker ps -a - List all containers (running and stopped)
+* docker images - List all images stored in Docker
+* docker rmi <image-name> - Remove an image from Docker
+* docker pull <image-name> - Pull an image from a repository
+* docker push <image-name> - Push an image to a repository
+* docker inspect <container-name> - Get information about a container
+* docker volume create - Create a named volume to store persistent data
+* docker volume inspect - View details about a named volume
+* docker volume ls - List all volumes
+* docker volume rm - Remove a volume
+* docker network create - Create an isolated network
+* docker network inspect - View details about a network
+* docker network ls - List all networks
+* docker network rm - Remove a network
+
+## Docker Compose Commands
+* docker-compose up - Build, create and start containers
+* docker-compose down - Stop and remove containers, networks and volumes
+* docker-compose start <container-name> - Start a container
+* docker-compose stop <container-name> - Stop a container
+* docker-compose logs -f - Follow the logs of one or more services
+* docker-compose exec <container-name> <command> - Execute a command in a running container
+* docker-compose run <service-name> <command> - Run a command in a new container
+* docker-compose ps - List all containers of a service
+* docker-compose config - Validate and view the Compose file.

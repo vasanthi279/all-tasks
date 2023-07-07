@@ -1,0 +1,118 @@
+OS level update the web application
+===================================
+
+To start tomcat with systemctl
+==============================
+
+Create an ec2 instance
+Install java and  tomcat by using below command
+yum install java -y
+wget https://dlcdn.apache.org/tomcat/tomcat-9/v9.0.73/bin/apache-tomcat-9.0.73.tar.gz
+
+
+
+Then open a file 
+vi /etc/systemd/system/tomcat.service
+In this file copy data same as given below
+         
+[Unit]
+Description=Tomcat Web Application Container
+After=syslog.target network.target
+
+[Service]
+Type=forking
+
+Environment=JAVA_HOME=/usr/lib/jvm/java-17-amazon-corretto.x86_64
+
+Environment=CATALINA_PID=/opt/tomcat/temp/tomcat.pid
+Environment=CATALINA_HOME=/opt/tomcat
+Environment=CATALINA_BASE=/opt/tomcat
+
+ExecStart=/opt/tomcat/bin/startup.sh
+ExecStop=/opt/tomcat/bin/shutdown.sh
+
+User=tomcat
+Group=tomcat
+
+RestartSec=10
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+
+
+
+In this u have to change java path like cd /usr/lib/jvm   then we will get path , that java file name we can pass above
+Then add useradd tomcat
+chown -R tomcat:tomcat /opt/tomcat
+Then move to tomcat bin path
+systemctl daemon-reload
+systemctl start tomcat.service
+systemctl enable tomcat.service
+
+
+
+
+
+Node_exporter to start systemctl
+================================
+cd /tmp
+curl -LO https://github.com/prometheus/node_exporter/releases/download/v0.18.1/node_exporter-0.18.1.linux-amd64.tar.gz
+
+tar -xvf node_exporter-0.18.1.linux-amd64.tar.gz
+
+sudo mv node_exporter-0.18.1.linux-amd64/node_exporter /usr/local/bin/
+
+sudo useradd -rs /bin/false node_exporter
+
+sudo vi /etc/systemd/system/node_exporter.service
+
+[Unit]
+Description=Node Exporter
+After=network.target
+
+[Service]
+User=node_exporter
+Group=node_exporter
+Type=simple
+ExecStart=/usr/local/bin/node_exporter
+
+[Install]
+WantedBy=multi-user.target
+
+
+sudo systemctl daemon-reload
+sudo systemctl start node_exporter
+sudo systemctl status node_exporter
+
+sudo systemctl enable node_exporter
+
+http://<server-IP>:9100/metrics
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

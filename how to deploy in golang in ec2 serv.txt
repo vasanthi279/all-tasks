@@ -1,0 +1,65 @@
+how to deploy in golang in ec2 server
+=====================================
+
+1)First we have to login to the aws console ----to search to the ec2 server-----to create to one ec2 server---and to connect to the server ----inside to trhe excute to the commands ---
+
+ec2 instance security group:------ssh--22--myip and vpn ip
+                            ------3000---anywhere-
+
+----yum update -y
+----yum install golang -y
+
+and to export to the golang commands
+-------------------------------------
+to run the commands inside to the server
+
+1)export GOROOT=/usr/lib/golang
+2)export GOPATH=$HOME/projects
+3)export PATH=$PATH:$GOROOT/bin
+
+and to create the vi app.go file 
+
+to incert to the content
+
+package main
+
+import (
+	"fmt"
+	"log"
+	"net/http"
+)
+
+func HomeEndpoint(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintln(w, "Hello world :)")
+}
+
+func main() {
+	http.HandleFunc("/", HomeEndpoint)
+	if err := http.ListenAndServe(":3000", nil); err != nil {
+		log.Fatal(err)
+	}
+}
+
+
+after to the excute to the command ------go run app.go
+
+then we will copy to the pubilc ip and search to browser :3000 ip then it will come output page .
+
+
+golang-code CICD FLOW
+=========================
+
+ci_golang.sh
+=============
+#!/bin/bash
+rm -rf example-code
+git clone git@github.com:sivaram2662/example-code.git
+cd example-code
+aws s3 cp webapp.go s3://staqtic-bucket-name-golang/
+
+
+cd_golang.sh
+============
+#!/bin/bash
+aws s3 cp s3://staqtic-bucket-name-golang/webapp.go .
+go run webapp.go

@@ -1,0 +1,95 @@
+username               = "sivadev"
+  password               = "sriram2662"
+terraform-20230524030315637200000002.cfmp6eeumzos.ap-south-1.rds.amazonaws.com
+
+mydb
+
+mysql -h terraform-20230524030315637200000002.cfmp6eeumzos.ap-south-1.rds.amazonaws.com -u sivadev -p 
+ 
+
+CREATE TABLE backendcodename( name VARCHAR(50) NOT NULL, roll INT NOT NULL, grade CHAR(1) NOT NULL );
+
+INSERT INTO backendcodename(name, roll, grade) VALUES ('leo hank', 103, 'A');
+
+INSERT INTO backendcodename(name, roll, grade) VALUES ('ram', 104, 'B');
+
+INSERT INTO backendcodename(name, roll, grade) VALUES ('devops', 105, 'B');
+
+
+
+Backend server
+==============
+------>first we have create one ec2 instance name ----Backend
+
+To install to Backend server commands :
+
+1) yum install git -y 
+
+2) git clone <git url link>
+
+3) cd <foldername>
+
+4) cd <backend floder name>
+
+5) run the sh dependencies.sh  
+
+6) after we have login to the rds command ----mysql -h <rds endpoint> -u <username> -p <password>
+
+7) CREATE TABLE backendcodename( name VARCHAR(50) NOT NULL, roll INT NOT NULL, grade CHAR(1) NOT NULL );
+
+8) INSERT INTO backendcodename(name, roll, grade) VALUES ('leo hank', 103, 'A');
+
+  INSERT INTO backendcodename(name, roll, grade) VALUES ('ram', 104, 'B');
+
+  INSERT INTO backendcodename(name, roll, grade) VALUES ('devops', 105, 'B');
+
+9) to exit the rds command \q 
+
+10) after we have edit the file <app.py> --- vi app.py 
+  
+    in app.py we have to insert to the rds  <username> and <password> and <hostname> and <database name> and <tablename>
+
+11) run to the app.py ----> nohup python3 app.py &
+
+12) To search the browser http:publicip
+
+
+
+Frontend server:
+===============
+
+------>first we have create one ec2 instance name ----Frontend
+
+To install to Forntend server commands :
+
+1) yum install git -y 
+
+2) git clone <git url link>
+
+3) cd <foldername>
+
+4) cd <forntend floder name>
+
+5)yum install nodejs -y
+   
+6)npm install
+
+7)npm install -g npm@9.6.7
+
+8) rm -rf node_modules/
+
+9) cd </src floder>
+
+10) in src folder to edit the file < vi app.js >  to insert the backend of the broweser url and save file
+
+11) to the npm start 
+
+12) To search the browser http:publicip
+
+
+ 
+
+
+
+
+

@@ -1,0 +1,224 @@
+==================================================================================================                       
+                                     war file commands 
+==================================================================================================
+
+
+https://www.techbeatly.com/creating-the-elastic-stack-on-aws-using-terraform/
+
+
+https://www.ibm.com/docs/en/cam/3.1.2.1?topic=apis-terraform-icp-elk-provisioner
+
+https://www.fosstechnix.com/install-prometheus-and-grafana-on-linux-with-node-exporter/
+
+https://devopscube.com/monitor-linux-servers-prometheus-node-exporter/
+
+vm (vs) docker
+==============
+https://dockerlabs.collabnix.com/beginners/difference-docker-vm.html
+
+
+
+curl -u admin:Siva@2662 -X POST \
+-F file=@sparkjava-hello-world.war \
+http://54.185.86.116:8081//nexus/service/local/repositories/warfile-upload/content/sparkjava-hello-world.war
+
+
+# Define variables
+WAR_FILE="/var/lib/jenkins/workspace/pipeline/target/sparkjava-hello-world-1.0.war"
+NEXUS_URL="http://54.185.86.116:8081/repository/warfile-upload/"
+NEXUS_USERNAME="admin"
+NEXUS_PASSWORD="Siva@2662"
+
+# Copy the WAR file to the workspace
+cp "$WAR_FILE" "$WORKSPACE"
+
+# Upload the WAR file to Nexus
+curl -v -u "$NEXUS_USERNAME:$NEXUS_PASSWORD" --upload-file "$WORKSPACE/sparkjava-hello-world-1.0.war" "$NEXUS_URL/warfile-$BUILD_NUMBER.war"
+
+
+wget --user="$NEXUS_USERNAME" --password="$NEXUS_PASSWORD" --post-file="$WORKSPACE/warfile.war" "$NEXUS_URL/warfile-$BUILD_NUMBER.war"
+
+mvn deploy:deploy-file -Durl="$NEXUS_URL" -DrepositoryId=nexus -Dfile="$WORKSPACE/warfile.war" -DgroupId=your.groupId -DartifactId=warfile -Dversion="$BUILD_NUMBER" -Dpackaging=war
+
+
+nexus-cli upload "$NEXUS_URL" --username "$NEXUS_USERNAME" --password "$NEXUS_PASSWORD" --file "$WORKSPACE/warfile.war" --repository warfile --name "warfile-$BUILD_NUMBER.war"
+
+
+
+
+${WORKSPACE}/target/sparkjava-hello-world.war => sparkjava-hello/sparkjava-hello-world/${BUILD_NAME}/sparkjava-hello-world-${BUILD_NAME}.war
+
+
+
+
+
+
+mvn clean package
+BUILD_NUMBER=$(echo $BUILD_NUMBER)
+WAR_NAME=sparkjava-hello-world-${BUILD_NUMBER}.war
+mv target/sparkjava-hello-world.war target/${WAR_NAME}
+
+
+
+
+${WORKSPACE}/target/sparkjava-hello-world-${BUILD_NUMBER}.war => sparkjava-hello/sparkjava-hello-world/${BUILD_NUMBER}/sparkjava-hello-world-${BUILD_NUMBER}.war
+
+
+
+
+
+
+mvn clean package
+BUILD_NUMBER=${BUILD_NUMBER}
+WAR_NAME=sparkjava-hello-world-${BUILD_NUMBER}.war
+cp target/sparkjava-hello-world.war target/${WAR_NAME}
+
+
+
+
+
+
+
+
+
+mvn clean package
+BUILD_NUMBER=${BUILD_NUMBER}
+war_name=myapp-${BUILD_NUMBER}.war
+mv target/myapp.war target/${war_name}
+
+
+
+
+
+curl -v --user admin:Siva@2662 --upload-file /var/lib/jenkins/workspace/pipeline/target/sparkjava-hello-world-1.0.war "https://54.185.86.116:8081/repository/sparkjava-hello/pipeline/build_$BUILD_NUMBER/sparkjava-hello-world-1.0.war"
+
+
+
+curl -v --user admin:Siva@2662 --upload-file /var/lib/jenkins/workspace/pipeline/target/sparkjava-hello-world-1.0.war "https://54.185.86.116:8081/repository/sparkjava-hello/pipeline/build_$BUILD_NUMBER/file_$BUILD_NUMBER.war"
+
+
+
+
+e107f8caef7dc877fbb4ca3d8cba6e303e0e5a1b
+
+
+
+
+/opt/apache-maven-3.9.1/bin
+
+
+
+pipeline{
+    agent any
+    environment {
+        PATH = "$PATH:/opt/apache-maven-3.9.1/bin"
+    }
+    stages{
+       stage('GetCode'){
+            steps{
+                 git branch: 'main', url: 'git@github.com:sivaram2662/sparkjava-application.git'
+            }
+         }        
+       stage('Build'){
+            steps{
+                sh 'mvn clean package'
+            }
+         }
+        stage('SonarQube analysis') {
+//    def scannerHome = tool 'SonarScanner 4.0';
+        steps{
+        withSonarQubeEnv('sonarqube-8.3') { 
+        // If you have configured more than one global server connection, you can specify its name
+//      sh "${scannerHome}/bin/sonar-scanner"
+        sh "mvn sonar:sonar"
+    }
+        }
+        }
+    }
+
+
+
+https://plugins.jenkins.io/sonar/
+
+
+
+==================================================================================================
+
+                                          zip file command
+==================================================================================================
+
+
+
+zip -r siva-$BUILD_NUMBER.zip *
+
+
+
+curl -O --output-dir /var/lib/jenkins/workspace/sample-file http://54.185.86.116:8081/repository/samplefile-zip/samplefilecontent/devops-$BUILD_NUMBER.zip
+
+
+
+
+
+curl -X 'POST' \
+            'http://54.185.86.116:8081/service/rest/v1/components?repository=samplefile-zip' \
+            -H 'accept: application/json' \
+            -H 'Content-Type: multipart/form-data' \
+            -H 'Authorization: Basic YWRtaW46YWRtaW4=' \
+            -F 'raw.directory=samplefilecontent' \
+            -F 'raw.asset1=@/var/lib/jenkins/workspace/sample-file/siva-$BUILD_NUMBER.zip;type=application/x-zip-compressed' \
+            -F 'raw.asset1.filename=siva-$BUILD_NUMBER.zip'
+
+
+
+curl -u "admin:Siva@2662" -o "/var/lib/jenkins/workspace/sample-file/siva-$BUILD_NUMBER.zip" "http://54.185.86.116:8081/service/rest/v1/components?repository=samplefile-zip/base/core/1.0/siva-$BUILD_NUMBER.zip"
+
+
+
+
+
+
+#curl -O --output-dir /var/lib/jenkins/workspace/sample-file http://54.185.86.116:8081/repository/samplefile-zip/samplefilecontent/devops-$BUILD_NUMBER.zip
+
+
+
+
+
+
+#curl --output /var/lib/jenkins/workspace/sample-file/devops-$BUILD_NUMBER.zip http://54.185.86.116:8081/repository/samplefile-zip/samplefilecontent/devops-$BUILD_NUMBER.zip
+
+
+
+
+
+
+curl -u "admin:Siva@2662" -o "/var/lib/jenkins/workspace/sample-file/siva-$BUILD_NUMBER.zip" "http://54.185.86.116:8081/service/rest/v1/components?repository=samplefile-zip/base/core/1.0/siva-$BUILD_NUMBER.zip"
+
+
+
+
+
+
+zip -r siva-$BUILD_NUMBER.zip *
+#curl -O --output-dir /var/lib/jenkins/workspace/sample-file http://54.185.86.116:8081/repository/samplefile-zip/samplefilecontent/devops-$BUILD_NUMBER.zip
+#curl --output /var/lib/jenkins/workspace/sample-file/devops-$BUILD_NUMBER.zip http://54.185.86.116:8081/repository/samplefile-zip/samplefilecontent/devops-$BUILD_NUMBER.zip
+curl -u "admin:Siva@2662" -o "/var/lib/jenkins/workspace/sample-file/siva-$BUILD_NUMBER.zip" "http://54.185.86.116:8081/service/rest/v1/components?repository=samplefile-zip/base/core/1.0/siva-$BUILD_NUMBER.zip"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

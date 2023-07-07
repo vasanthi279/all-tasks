@@ -1,0 +1,74 @@
+#!/bin/bash
+yum install java -y
+rpm --import https://artifacts.elastic.co/GPG-KEY-elasticsearch
+cat <<EOT>> /etc/yum.repos.d/elasticsearch.repo 
+[elasticsearch]
+name=Elasticsearch repository for 8.x packages
+baseurl=https://artifacts.elastic.co/packages/8.x/yum
+gpgcheck=1
+gpgkey=https://artifacts.elastic.co/GPG-KEY-elasticsearch
+enabled=0
+autorefresh=1
+type=rpm-md
+EOT
+sudo dnf install --enablerepo=elasticsearch elasticsearch -y
+sudo sed -i 's/#network.host: 192.168.0.1/network.host: 0.0.0.0/g' /etc/elasticsearch/elasticsearch.yml
+sudo sed -i 's/#http.port: 9200/http.port: 9200/g' /etc/kibana/kibana.yml
+systemctl start elasticsearch
+systemctl status elasticsearch
+
+rpm --import https://artifacts.elastic.co/GPG-KEY-elasticsearch
+cat <<EOT>>  /etc/yum.repos.d/kibana.repo
+[elasticsearch]
+name=Elasticsearch repository for 8.x packages
+baseurl=https://artifacts.elastic.co/packages/8.x/yum
+gpgcheck=1	
+gpgkey=https://artifacts.elastic.co/GPG-KEY-elasticsearch
+enabled=0
+autorefresh=1
+type=rpm-md
+EOT
+sudo dnf install kibana -y
+sudo sed -i 's/#server.host: "localhost"/server.host: "0.0.0.0"/g' /etc/kibana/kibana.yml
+sudo sed -i 's/#server.port: 5601/server.host: 5601/g' /etc/kibana/kibana.yml
+sudo sed -i 's/#elasticsearch.hosts:/elasticsearch.hosts:/g' /etc/kibana/kibana.yml
+systemctl start kibana
+systemctl enable kibana
+
+
+
+
+
+filebit userdata :
+===================
+
+yum install java -y
+
+sudo rpm --import https://packages.elastic.co/GPG-KEY-elasticsearch
+
+
+cat <<EOT>> /etc/yum.repos.d/elastic.repo
+[elastic-8.x]
+name=Elastic repository for 8.x packages
+baseurl=https://artifacts.elastic.co/packages/8.x/yum
+gpgcheck=1
+gpgkey=https://artifacts.elastic.co/GPG-KEY-elasticsearch
+enabled=1
+autorefresh=1
+type=rpm-md
+EOT
+
+sudo yum install filebeat -y
+
+
+
+sudo systemctl start filebeat
+sudo systemctl enable filebeat
+
+
+
+
+
+
+
+

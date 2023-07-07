@@ -1,0 +1,184 @@
+9a5e4e5d3cf5d855cbb3d4b9cbbf11fe550626a6
+
+SonarQubeScanner 
+
+node {
+  stage('Clone the Git') {
+    git 'git branch: 'main', url: 'git@github.com:sivaram2662/nexus-application.git''
+  }
+  stage('SonarQube analysis') {
+    def scannerHome = tool 'sonarqube';
+    withSonarQubeEnv('sonarqube') {
+      sh "${scannerHome}/bin/sonar-scanner \
+      -D sonar.login=admin \
+      -D sonar.password=admin \
+      -D sonar.projectKey=jenkins-token \
+      -D sonar.exclusions=vendor/**,resources/**,**/*.java \
+      -D sonar.host.url=http://34.219.114.44:9000/"
+    }
+  }
+}
+
+
+
+
+
+pre-clean, clean, post-clean, validate, initialize, generate-sources, process-sources, generate-resources, process-resources, compile, process-classes, generate-test-sources, process-test-sources, generate-test-resources, process-test-resources, test-compile, process-test-classes, test, prepare-package, package, pre-integration-test, integration-test, post-integration-test, verify, install, deploy, pre-site, site, post-site, site-deploy. 
+
+
+
+
+mvn sonar:sonar \
+  -Dsonar.projectKey=jenkins-token \
+  -Dsonar.host.url=http://34.219.114.44:9000 \
+  -Dsonar.login=27a3ca16b8eb2bb24c2d424c1a116dd4c85ce1b8
+
+
+
+
+
+
+pipeline{
+    agent any
+    environment {
+        PATH = "$PATH:/usr/share/maven/bin"
+    }
+    stages{
+       stage('GetCode'){
+            steps{
+               'git branch: 'main', url: 'git@github.com:sivaram2662/sparkjava-application.git''
+            }
+         }        
+       stage('Build'){
+            steps{
+                sh 'mvn clean package'
+            }
+         }
+        stage('SonarQube analysis') {
+//    def scannerHome = tool 'SonarScanner 4.0';
+        steps{
+        withSonarQubeEnv('SonarQubeScanner-8.3') { 
+        // If you have configured more than one global server connection, you can specify its name
+//      sh "${scannerHome}/bin/sonar-scanner"
+        sh "mvn sonar:sonar"
+    }
+        }
+        }
+    }
+}
+
+
+pipeline{
+    agent any
+    environment {
+        PATH = "$PATH:/usr/share/maven/bin"
+    }
+    stages{
+       stage('GetCode'){
+            steps{
+          git branch: 'main', url: 'git@github.com:sivaram2662/nexus-application.git'
+            }
+         }        
+       stage('Build'){
+            steps{
+                sh 'mvn clean package'
+            }
+         }
+          stage('sonarcode'){
+            environment{
+                sonarscannerhome = tool 'SonarQubeScanner'
+            }
+        steps{
+         withSonarQubeEnv('SonarQubeScanner-8.3') 
+         sh "${sonarscannerhome}/bin/sonar-scanner \
+             -Dsonar.projectKey=java-project \
+             -Dsonar.projectName=java-project"
+         }
+    //     stage('SonarQubeanalysis') {
+    //     steps{
+    //     withSonarQubeEnv('SonarQubeScanner-8.3') { 
+    //     sh "mvn clean package sonar:sonar"
+    // }
+    //     }
+    //     }
+    }
+}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+Copy code
+pipeline {
+    agent any
+    
+    stages {
+        stage('Checkout') {
+            steps {
+                // Checkout your source code from version control
+                // For example, using git:
+                  git branch: 'main', url: 'git@github.com:sivaram2662/nexus-application.git'
+            }
+        }
+        
+        stage('Build') {
+            steps {
+                // Run Maven clean and package commands
+                sh 'mvn clean package'
+            }
+        }
+        
+        stage('SonarQube Analysis') {
+            steps {
+                // Run SonarQube analysis
+                withSonarQubeEnv('SonarQubeScanner-8.3') {
+                    sh 'mvn sonar:sonar \
+                        -Dsonar.projectKey=java-project \
+                        -Dsonar.host.url=http://34.219.114.44:9000/ \
+                        -Dsonar.login=9a5e4e5d3cf5d855cbb3d4b9cbbf11fe550626a6'
+                }
+            }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

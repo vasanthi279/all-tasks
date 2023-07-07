@@ -1,0 +1,46 @@
+how to create workspace in terraform
+======================================
+terraform worksapce new dev ---<env name>
+
+terraform worksapce new stage ----<env name>
+
+terraform workspace select dev
+
+terraform worksapce select stage
+
+how to create to at a time to aws configure aws 
+===========================================
+
+aws configure --profile dev
+a.k
+s.k
+region name
+
+aws configure --profile stage
+a.k
+s.k
+region
+
+Default region name
+
+export AWS_ACCESS_KEY_ID=AKIAVKKUTI7MVBTJTJNY
+export AWS_SECRET_ACCESS_KEY=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
+export AWS_DEFAULT_REGION=us-west-2
+
+
+export AWS_ACCESS_KEY_ID=AKIAVKKUTI7MVBTJTJNY
+export AWS_SECRET_ACCESS_KEY=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
+export AWS_DEFAULT_REGION=us-east-1
+
+
+
+
+
+
+
+
+
+
+
+
+

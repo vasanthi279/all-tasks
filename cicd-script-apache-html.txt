@@ -1,0 +1,11 @@
+nslookup -type=ns sainath.quest to check the nameserver command
+===============================================================
+# CI
+zip -r static-$BUILD_NUMBER.zip *
+aws s3 cp static-$BUILD_NUMBER.zip s3://artifactory-pacakges/
+
+#CD 
+aws s3 cp s3://artifactory-pacakges/static-$BUILD_NUMBER.zip .
+unzip static-$BUILD_NUMBER.zip
+ssh ec2-user@privateIP "mkdir /home/ec2-user/deploy"
+scp static-$BUILD_NUMBER.zip ec2user@privateIP:/home/ec2-user/deploy

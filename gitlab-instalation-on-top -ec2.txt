@@ -1,0 +1,35 @@
+first we have create to the one ec2 mechine after we have install this commands 
+
+sudo apt update
+sudo apt upgrade -y
+sudo apt install -y curl openssh-server ca-certificates postfix
+curl https://packages.gitlab.com/install/repositories/gitlab/gitlab-ee/script.deb.sh | sudo bash
+sudo EXTERNAL_URL="http://your_domain_or_ip_address" apt install gitlab-ee
+                      (or)
+sudo EXTERNAL_URL="http://35.91.10.23" apt install gitlab-ee
+
+
+curl -L "https://packages.gitlab.com/install/repositories/runner/gitlab-runner/script.deb.sh" | sudo bash
+sudo apt-get install gitlab-runner
+gitlab-runner --version
+sudo gitlab-runner start
+sudo systemctl enable gitlab-runner
+
+--------------------------
+cat /etc/os-release
+gitlab-rails console -e production
+u = User.where(id:1).first
+u.password = 'Siva@!%^2662*'
+u.password_confirmation = 'Siva@!%^2662*'
+u.save!
+
+
+
+
+
+Below the link we refer that :
+==============================
+https://docs.gitlab.com/runner/install/linux-repository.html
+https://docs.gitlab.com/runner/register/index.html
+https://medium.com/hackernoon/tutorial-guide-installing-gitlab-gitlab-ci-on-aws-ec2-from-zero-751927e5ae5
+https://youtu.be/W_dcvCaLFpM

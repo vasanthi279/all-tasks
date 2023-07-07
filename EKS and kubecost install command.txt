@@ -1,0 +1,84 @@
+EKS and kubecost install command
+=================================
+1)First we have to Login aws console 
+2)after we have create eks cluster via terraform below link refer that :https://github.com/sivaram2662/eks-cluster-own-code
+
+3)After that we have to upadate .kube config-file command:
+          aws eks --region <region-name> update-kubeconfig --name <cluster-name>
+      
+kubecost install command
+===========================
+
+ helm upgrade -install kubecost kubecost/cost-analyzer \
+--namespace kubecost --create-namespace \
+--set persistentVolume.enabled="false" \
+--set prometheus.server.persistentVolume.enabled="false"
+
+
+kubectl port-forward --namespace kubecost deployment/kubecost-cost-analyzer 9090
+
+kubectl 
+kubectl get pods -n kubecost 
+helm uninstall kubecost --namespace kubecost 
+
+Below the links kubecost is refer that :
+========================================
+https://docs.kubecost.com/troubleshooting/troubleshoot-install
+
+https://medium.com/@magstherdev/kubecost-5c78c783787d
+
+https://github.com/kubecost/kubectl-cost
+
+
+kubecost to integration prometheus:
+====================================
+
+https://docs.kubecost.com/install-and-configure/install/custom-prom
+
+https://medium.com/@lordz.md/running-kubecost-with-custom-prometheus-in-aws-eks-e2f96b88b924
+
+
+
+
+
+https://github.com/kubecost/docs/blob/main/aws-cloud-integrations.md 
+https://medium.com/@lordz.md/running-kubecost-with-custom-prometheus-in-aws-eks-e2f96b88b924
+https://medium.com/@lordz.md/running-kubecost-with-custom-prometheus-in-aws-eks-e2f96b88b924
+
+
+
+ k get pods -n kubecost
+ k get svc -n kubecost
+ k get svc -n kubecost
+  kubectl get svc
+    kubectl edit svc kubecost-prometheus-server
+   kubectl edit svc kubecost-prometheus-server -n kubecost
+   k get svc -n kubecost
+   kubectl port-forward --namespace kubecost svc/kubecost-prometheus-server  9091
+   kubectl edit svc kubecost-prometheus-server -n kubecost
+   kubectl get cm -n kubecost
+   kubectl get cm kubecost-prometheus-server  -n kubecost -o yaml
+   kubectl get deploy -n kubecost
+   kubectl get svc -n kubecost
+   kubectl get deploy -o yaml kubecost-cost-analyzer -n kubecost
+   kubectl get cm  kubecost-cost-analyzer -n kubecost
+   kubectl get cm  kubecost-cost-analyzer -n kubecost -o yaml
+
+
+k8s pods logs commands :
+=======================
+https://sematext.com/blog/tail-kubernetes-logs/
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+helm repo add kubecost https://kubecost.github.io/cost-analyzer/
+helm upgrade -i --create-namespace kubecost kubecost/cost-analyzer --namespace kubecost --set kubecostToken="a3ViZWN0bEBrdWJlY29zdC5jb20=xm343yadf98"
+
+
+kubectl get pods -n kubecost 
+
+
+
+eksctl utils associate-iam-oidc-provider --cluster=eks-lab --region us-west-2 --approve
